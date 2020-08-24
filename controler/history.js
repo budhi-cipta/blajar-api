@@ -26,7 +26,7 @@ module.exports = {
             }
         })
      },
-     postHistory : (req, res) => {
+    postHistory : (req, res) => {
         //mengambil data dri form body/input (post)
         const {id_movie,id_user,id_subscription} = req.body
         //quer insert
@@ -41,6 +41,26 @@ module.exports = {
             }else{
                 res.send({
                     message:'add data movie',
+                    status:200,
+                    result
+                })
+            }
+        })
+    },
+    deleteHistory : (req, res) => {
+        const {id_history_watch,id_movie,id_user,id_subscription} = req.body
+        const myDeleteHistory = `DELETE history_watch (id_history_watch,id_movie,id_user,id_subscription)
+        WHERE("${id_history_watch}","${id_movie}","${id_user}","${id_subscription}")`;
+        connection.query(myDeleteHistory, (error, result) => {
+            if(error){
+                console.log(error)
+                res.send({
+                    message:'error',
+                    status:500
+                })
+            }else{
+                res.send({
+                    message:'data history deletes',
                     status:200,
                     result
                 })

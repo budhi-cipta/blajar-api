@@ -41,7 +41,68 @@ module.exports = {
                 })
             }
         })
+    },
+    putUser : (req, res ) => {
+        const {fullname,email,password,address} = req.body
+        const {id_user} = req.params
+        const myPutUser = `UPDATE users SET fullname = '${fullname}', email = '${email}', password = '${password}', address = '${address}'
+        WHERE id_user= ${id_user}`
+        connection.query(myPutUser, (error, result) => {
+            if(error){
+                console.log(error)
+                res.send({
+                    message:'error',
+                    status:500
+                })
+            }else{
+                res.send({
+                    message:'data user update',
+                    status:200,
+                    result
+                })
+            }
+        })
+    },
+    deleteUser : (req, res) => {
+        const {id_user,fullname,email,password,address} = req.body
+        const myDeleteUser = `DELETE users (id_user,fullname,email,password,address)
+        WHERE("${id_user}","${fullname}","${email}","${password}","${address}")`;
+        connection.query(myDeleteUser, (error, result) => {
+            if(error){
+                console.log(error)
+                res.send({
+                    message:'error',
+                    status:500
+                })
+            }else{
+                res.send({
+                    message:'data user deleted',
+                    status:200,
+                    result
+                })
+            }
+        })
+    },
+    createOne : (req, res) => {
+        const {id_user} = req.params
+        const myCreateOne = `SELECT * FROM users WHERE id_user = ${id_user}`
+        connection.query(myCreateOne, (error, result) => {
+            if(error){
+                console.log(error)
+                res.send({
+                    message:'error',
+                    status:500
+                })
+            }else{
+                res.send({
+                    message:'data user deleted',
+                    status:200,
+                    result
+                })
+            }
+        })
     }
+
 }
         
       
